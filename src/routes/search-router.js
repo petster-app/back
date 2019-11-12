@@ -6,13 +6,13 @@ const superagent = require('superagent');
 const getToken = require('../middleware/getToken');
 const handleError = require('../middleware/error');
 
-router.get('/search', getToken, getPetfinderData);
+router.get('/search/:type/:city/:travelDistance', getToken, getPetfinderData);
 
 function getPetfinderData(request, response, next) {
 
-  let queryType = request.body.type;
-  let queryZipCode = request.body.city;
-  let queryDistance = request.body.travelDistance;
+  let queryType = request.params.type;
+  let queryZipCode = request.params.city;
+  let queryDistance = request.params.travelDistance;
   let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&sort=random&status=adoptable`
 
   return superagent.get(URL)
