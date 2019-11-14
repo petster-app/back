@@ -8,9 +8,9 @@ const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL)
 client.connect();
 
-router.get('/details/:petfinderid', renderDetailsPageFromFav);
+router.get('/details/:petfinderid', getDetails);
 
-function renderDetailsPageFromFav(request, response) {
+function getDetails(request, response) {
 
   let SQL = `SELECT * FROM pets WHERE petfinderid = '${request.params.petfinderid}';`;
  
