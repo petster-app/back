@@ -26,6 +26,7 @@ function getPetfinderData(request, response, next) {
 }
 
 function Pet(query) {
+  console.log(query)
   this.type = query.type;
   this.petfinderid = query.id;
   this.name = query.name;
@@ -39,7 +40,7 @@ function Pet(query) {
   this.url = query.url;
   this.primaryBreed = query.breeds.primary;
   this.secondaryBreed = query.breeds.secondary;
-  this.photos = [];
+  this.photos = query.photos;
   this.inFavs = false;
 }
 
