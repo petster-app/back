@@ -40,7 +40,7 @@ function Pet(query) {
   this.url = query.url;
   this.primaryBreed = query.breeds.primary;
   this.secondaryBreed = query.breeds.secondary;
-  this.photos = query.photos;
+  this.photo = query.photos[0].medium ? photos[0].medium : 'https://www.placecage.com/300/300';
   this.inFavs = false;
 }
 

@@ -9,6 +9,7 @@ const client = new pg.Client(process.env.DATABASE_URL)
 client.connect();
 
 router.post('/favorites', postFavorite);
+router.get('/favorites', getAllFavoritePets);
 router.get('/favorites/:userName', getFavoritePets);
 router.delete('/favorites', deleteFavorite);
 
@@ -23,6 +24,21 @@ function postFavorite(request, response){
   return client.query(SQL)
     .then(sqlResults => {
       response.send(sqlResults);
+    })
+    .catch(error => handleError(error, response));
+}
+
+function getAllFavoritePets(request, response) {
+
+  let userName = request.params.userName;
+
+  let SQL = `
+    SELECT * FROM favorited_pets;
+  `;
+
+  return client.query(SQL)
+    .then(sqlResults => {
+      response.send(sqlResults.rows);
     })
     .catch(error => handleError(error, response));
 }
