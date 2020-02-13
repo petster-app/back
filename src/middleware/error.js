@@ -11,8 +11,8 @@
  * @param next - Calls the next middleware function
  */
 module.exports = (err, req, res, next) => {
+  console.log('whatsrong')
   let error = { error: err };
-  console.log(error)
   res.statusCode = 500;
   res.statusMessage = 'Server Error';
   res.setHeader('Content-Type', 'application/json');
