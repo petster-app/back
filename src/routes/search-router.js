@@ -19,6 +19,7 @@ function getPetfinderData(request, response, next) {
     .set('Authorization', `Bearer ${request.token}`)
     .then(apiResponse => {
       const petInstances = apiResponse.body.animals.map(pet => new Pet (pet))
+      console.log(petInstances)
       response.send([petInstances])
       next();
     })
@@ -40,7 +41,7 @@ function Pet(query) {
   this.url = query.url;
   this.primaryBreed = query.breeds.primary;
   this.secondaryBreed = query.breeds.secondary;
-  this.photo = query.photos[0].medium ? photos[0].medium : 'https://www.placecage.com/300/300';
+  this.photo = query.photos ? query.photos[0] ? query.photos[0].medium : 'https://www.placecage.com/300/300' : 'https://www.placecage.com/300/300';
   this.inFavs = false;
 }
 
