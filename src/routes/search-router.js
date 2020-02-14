@@ -23,11 +23,10 @@ function getPetfinderData(request, response, next) {
       response.send([petInstances])
       next();
     })
-    .catch(error => handleError(error));
+    .catch(error => console.log(error));
 }
 
 function Pet(query) {
-  console.log(query)
   this.type = query.type;
   this.petfinderid = query.id;
   this.name = query.name;
@@ -41,7 +40,7 @@ function Pet(query) {
   this.url = query.url;
   this.primaryBreed = query.breeds.primary;
   this.secondaryBreed = query.breeds.secondary;
-  this.photo = query.photos ? query.photos[0] ? query.photos[0].medium : 'https://www.placecage.com/300/300' : 'https://www.placecage.com/300/300';
+  this.photo = query.photos ? query.photos[0] ? query.photos[0].medium : 'https://www.placecage.com/300/300' : 'https://www.placecage.com/300/300';r
   this.inFavs = false;
 }
 
