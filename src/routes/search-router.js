@@ -19,7 +19,6 @@ function getPetfinderData(request, response, next) {
     .set('Authorization', `Bearer ${request.token}`)
     .then(apiResponse => {
       const petInstances = apiResponse.body.animals.map(pet => new Pet (pet))
-      console.log(petInstances)
       response.send([petInstances])
       next();
     })
