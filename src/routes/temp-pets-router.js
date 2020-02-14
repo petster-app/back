@@ -29,17 +29,13 @@ function postTempPets(request, response) {
   request.body[0].map((animal, index) => {
   
     let { type, name, age, gender, size, city, state, description, photo, url } = animal;
-    //console.log(animal.name,index);
     
     SQL = SQL + `INSERT INTO temp_pets (petfinderid, type, name, age, gender, size, city, state, description, photo, url) VALUES ('1111111','${type}','${name}', '${age}', '${gender}', '${size}','${city}', '${state}', '${description}', '${photo}', '${url}')
     ;`
   })
 
-  console.log(SQL)
-
   return client.query(SQL)
     .then(sqlResults => {
-      console.log('hellohello');
       response.send(sqlResults);
     })
     .catch(error => handleError(error, response));
