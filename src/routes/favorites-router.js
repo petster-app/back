@@ -83,7 +83,7 @@ function deleteFavorite(request, response) {
     .then(sqlResults => {
       response.send(sqlResults.rows);
     })
-    .catch(err => handleError(err, response));
+    .catch(err => handleError(err, request, response));
 }
 
 module.exports = router;
