@@ -64,7 +64,7 @@ function getFavoritePets(request, response) {
 
 function deleteFavorite(request, response) {
 
-  const userName = request.body.userName;
+  const userName = request.body.username;
   const petfinderid = request.body.petfinderid;
  
   const SQL = `DELETE FROM user_pets WHERE pet_id='${petfinderid}' AND username_id=(SELECT id FROM users WHERE username='${userName}');`
