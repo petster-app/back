@@ -15,16 +15,17 @@ router.delete('/favorites', deleteFavorite);
 
 function postFavorite(request, response){
   let { petfinderid, userName, type, name, age, gender, size, city, state, description, photo, url } = request.body;
-  console.log(request.body)
   const SQL = `
   INSERT INTO favorited_pets (petfinderid, type, name, age, gender, size, city, state, description, photo, url) SELECT '${petfinderid}','${type}','${name}', '${age}', '${gender}', '${size}','${city}', '${state}', '${description}', '${photo}', '${url}' 
   WHERE NOT EXISTS (SELECT * FROM favorited_pets WHERE petfinderid = '${petfinderid}');
-  INSERT INTO user_pets (pet_id, username_id) VALUES ('${petfinderid}',(SELECT id FROM users WHERE username='${userName}'));
+  INSERT INTO user_pets (pet_id, username_id) SELECT '${petfinderid}',(SELECT id FROM users WHERE username='${userName}')
+  WHERE NOT EXISTS (SELECT * FROM user_pets WHERE pet_id = '${petfinderid}' AND username_id=(SELECT id FROM users WHERE username='${userName}'));
   `;
   return client.query(SQL)
     .then(response.send(request.body))
     .catch(error => handleError(error, response));
 }
+
 
 function getAllFavoritePets(request, response) {
 
@@ -66,19 +67,12 @@ function deleteFavorite(request, response) {
   const userName = request.body.userName;
   const petfinderid = request.body.petfinderid;
  
-  const SQL1 = `SELECT * FROM users
-    WHERE username='${userName}';
-  `;
-  
-  return client.query(SQL1)
-    .then(sqlResults => {
-      const SQL2 = `DELETE FROM user_pets WHERE pet_id='${petfinderid}' AND username_id=${sqlResults.rows[0].id};`
-      return client.query(SQL2)
-      .then(sqlResults => {
-        response.send(sqlResults.rows);
-      })
-    })
-    .catch(err => handleError(err, response));
+  const SQL = `DELETE FROM user_pets WHERE pet_id='${petfinderid}' AND username_id=(SELECT id FROM users WHERE username='${userName}');`
+  return client.query(SQL)
+  .then(sqlResults => {
+    response.send(sqlResults.rows);
+  })
+.catch(err => handleError(err, response));
 }
 
 module.exports = router;
