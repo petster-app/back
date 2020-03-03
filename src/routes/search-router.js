@@ -7,7 +7,7 @@ const getToken = require("../middleware/getToken");
 const handleError = require("../middleware/error");
 
 router.get(
-  "/search/:type/:city/:travelDistance/:timeBefore",
+  "/search/:type/:city/:travelDistance/:timeBefore/:limit",
   getToken,
   getPetfinderData
 );
@@ -17,7 +17,8 @@ function getPetfinderData(request, response, next) {
   let queryZipCode = request.params.city;
   let queryDistance = request.params.travelDistance;
   let queryTimeBefore = request.params.timeBefore;
-  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}`;
+  let queryLimit = request.params.limit;
+  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}&limit=${queryLimit}`;
 
   return superagent
     .get(URL)
