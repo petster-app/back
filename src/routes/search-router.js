@@ -18,9 +18,14 @@ function getPetfinderData(request, response, next) {
   let queryDistance = request.params.travelDistance;
   let queryTimeBefore = request.params.timeBefore;
   let queryLimit = request.params.limit;
-  let URL = queryTimeBefore
-    ? `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}&limit=${queryLimit}`
-    : `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&limit=${queryLimit}`;
+  console.log(
+    "query time before",
+    queryTimeBefore == null ? console.log(true) : console.log(false)
+  );
+  let URL =
+    queryTimeBefore == null
+      ? `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}&limit=${queryLimit}`
+      : `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&status=adoptable&limit=${queryLimit}`;
 
   return superagent
     .get(URL)
@@ -41,6 +46,12 @@ function Pet(query) {
   this.age = query.age;
   this.gender = query.gender;
   this.size = query.size;
+  this.color = query.colors.primary;
+  this.spayedNeutered = query.attributes.spayed_neutered;
+  this.shotsCurrent = query.attributes.shots_current;
+  this.houseTrained = query.attributes.house_trained;
+  this.goodWithKids = query.environment.children;
+  this.goodWithDogs = query.environment.dogs;
   this.city = query.contact.address.city;
   this.state = query.contact.address.state;
   this.description = query.description
