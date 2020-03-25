@@ -64,8 +64,8 @@ function Pet(query) {
   this.photo = query.photos
     ? query.photos[0]
       ? query.photos[0].medium
-      : "https://www.placecage.com/300/300"
-    : "https://www.placecage.com/300/300";
+      : "null"
+    : "null";
   this.inFavs = false;
 }
 
