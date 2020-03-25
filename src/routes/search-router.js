@@ -18,7 +18,9 @@ function getPetfinderData(request, response, next) {
   let queryDistance = request.params.travelDistance;
   let queryTimeBefore = request.params.timeBefore;
   let queryLimit = request.params.limit;
-  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}&limit=${queryLimit}`;
+  let URL = queryTimeBefore
+    ? `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}&limit=${queryLimit}`
+    : `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&limit=${queryLimit}`;
 
   return superagent
     .get(URL)
