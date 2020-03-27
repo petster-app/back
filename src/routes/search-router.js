@@ -64,8 +64,8 @@ function Pet(query) {
   this.photo = query.photos
     ? query.photos[0]
       ? query.photos[0].medium
-      : "null"
-    : "null";
+      : undefined
+    : undefined;
   this.inFavs = false;
 }
 
