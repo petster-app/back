@@ -66,6 +66,7 @@ function Pet(query) {
       ? query.photos[0].medium
       : undefined
     : undefined;
+  this.before = query.before;
   this.inFavs = false;
 }
 
