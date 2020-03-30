@@ -18,10 +18,6 @@ function getPetfinderData(request, response, next) {
   let queryDistance = request.params.travelDistance;
   let queryTimeBefore = request.params.timeBefore;
   let queryLimit = request.params.limit;
-  console.log(
-    "query time before",
-    queryTimeBefore == null ? console.log(true) : console.log(false)
-  );
   let URL =
     queryTimeBefore == null
       ? `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}&limit=${queryLimit}`
@@ -31,7 +27,6 @@ function getPetfinderData(request, response, next) {
     .get(URL)
     .set("Authorization", `Bearer ${request.token}`)
     .then(apiResponse => {
-      console.log("api respone", apiResponse.body.animals[0]);
       const petInstances = apiResponse.body.animals.map(pet => new Pet(pet));
       response.send([petInstances]);
       next();
@@ -43,7 +38,7 @@ function Pet(query) {
   console.log(query);
   this.type = query.type;
   this.petfinderid = query.id;
-  this.name = query.name;
+  this.name = cleanName(query.name);
   this.age = query.age;
   this.gender = query.gender;
   this.size = query.size;
@@ -69,6 +64,21 @@ function Pet(query) {
     : undefined;
   this.before = query.before;
   this.inFavs = false;
+}
+
+function cleanName(name) {
+  let modifiedName;
+  const splitName = name.split(" ");
+  if (
+    splitName[1] &&
+    splitName[1].charAt(0).toUpperCase() != splitName[1].charAt(0).toLowerCase()
+  ) {
+    modifiedName = `${splitName[0]} ${splitName[1]}`;
+  } else {
+    modifiedName = splitName[0];
+  }
+  console.log(name, modifiedName);
+  return modifiedName;
 }
 
 function cleanDescription(description) {
