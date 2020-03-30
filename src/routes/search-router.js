@@ -62,7 +62,7 @@ function Pet(query) {
       ? query.photos[0].medium
       : undefined
     : undefined;
-  this.before = query.before;
+  this.published_at = query.published_at;
   this.inFavs = false;
 }
 
