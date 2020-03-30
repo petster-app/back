@@ -40,6 +40,7 @@ function getPetfinderData(request, response, next) {
 }
 
 function Pet(query) {
+  console.log(query);
   this.type = query.type;
   this.petfinderid = query.id;
   this.name = query.name;
