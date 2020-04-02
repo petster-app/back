@@ -1,26 +1,37 @@
-'use strict';
+"use strict";
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const handleError = require('../middleware/error');
-const pg = require('pg');
+const handleError = require("../middleware/error");
+const pg = require("pg");
 
-const client = new pg.Client(process.env.DATABASE_URL)
+const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 
-router.post('/users', postUser);
+router.get("/users", getUser);
+router.post("/users", postUser);
 
-function postUser(request, response) {
+function getUser(request, response) {
+  let SQL = `SELECT * FROM users WHERE username = '${request.body.userName}';`;
 
-  let SQL = `INSERT INTO users (username) SELECT '${request.body.userName}'  
-  WHERE NOT EXISTS (SELECT * FROM users WHERE username = '${request.body.userName}');`;
- 
-  return client.query(SQL)
+  return client
+    .query(SQL)
     .then(results => {
-      response.send(results.rows)
+      response.send(results.rows);
     })
-    .catch(err => handleError(err, response));
+    .catch(err => console.log(err));
 }
 
+function postUser(request, response) {
+  let SQL = `INSERT INTO users (username, zipCode) SELECT '${request.body.userName}', ${request.body.zipCode} 
+  WHERE NOT EXISTS (SELECT * FROM users WHERE username = '${request.body.userName}');`;
+
+  return client
+    .query(SQL)
+    .then(results => {
+      response.send(results.rows);
+    })
+    .catch(err => console.log(err));
+}
 
 module.exports = router;
