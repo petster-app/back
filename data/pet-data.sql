@@ -6,7 +6,8 @@ DROP TABLE IF EXISTS user_pets;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  username VARCHAR(255)
+  username VARCHAR(255),
+  zipcode INT
 );
 
 CREATE TABLE temp_pets (

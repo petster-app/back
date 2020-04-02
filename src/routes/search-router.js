@@ -18,8 +18,7 @@ function getPetfinderData(request, response, next) {
   let queryDistance = request.params.travelDistance;
   let queryTimeBefore = request.params.timeBefore;
   let queryLimit = request.params.limit;
-  console.log(request.params)
-  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}&limit=${queryLimit}`
+  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&status=adoptable&before=${queryTimeBefore}&limit=${queryLimit}`;
 
   return superagent
     .get(URL)
@@ -33,7 +32,6 @@ function getPetfinderData(request, response, next) {
 }
 
 function Pet(query) {
-  // console.log(query);
   this.type = query.type;
   this.petfinderid = query.id;
   this.name = cleanName(query.name);
@@ -75,7 +73,6 @@ function cleanName(name) {
   } else {
     modifiedName = splitName[0];
   }
-  console.log(name, modifiedName);
   return modifiedName;
 }
 
