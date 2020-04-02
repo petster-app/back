@@ -10,6 +10,18 @@ client.connect();
 
 router.get("/users", getUser);
 router.post("/users", postUser);
+router.patch("/users", updateUser);
+
+function updateUser(request, response) {
+  let SQL = `UPDATE users SET zipcode = ${request.body.zipCode} WHERE  username = '${request.body.userName}'; SELECT * FROM users WHERE username = '${request.body.userName}';`;
+
+  return client
+    .query(SQL)
+    .then(results => {
+      response.send(results[1].rows);
+    })
+    .catch(err => console.log(err));
+}
 
 function getUser(request, response) {
   let SQL = `SELECT * FROM users WHERE username = '${request.body.userName}';`;
@@ -24,12 +36,12 @@ function getUser(request, response) {
 
 function postUser(request, response) {
   let SQL = `INSERT INTO users (username, zipCode) SELECT '${request.body.userName}', ${request.body.zipCode} 
-  WHERE NOT EXISTS (SELECT * FROM users WHERE username = '${request.body.userName}');`;
+  WHERE NOT EXISTS (SELECT * FROM users WHERE username = '${request.body.userName}'); SELECT * FROM users WHERE username = '${request.body.userName}';`;
 
   return client
     .query(SQL)
     .then(results => {
-      response.send(results.rows);
+      response.send(results[1].rows);
     })
     .catch(err => console.log(err));
 }
