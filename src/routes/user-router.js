@@ -8,7 +8,7 @@ const pg = require("pg");
 const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 
-router.get("/users", getUser);
+router.get("/users/:email", getUser);
 router.post("/users", postUser);
 router.patch("/users", updateUser);
 
@@ -24,7 +24,8 @@ function updateUser(request, response) {
 }
 
 function getUser(request, response) {
-  let SQL = `SELECT * FROM users WHERE username = '${request.body.userName}';`;
+  let email = request.params.email;
+  let SQL = `SELECT * FROM users WHERE username = '${email}';`;
 
   return client
     .query(SQL)
