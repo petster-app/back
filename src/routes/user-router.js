@@ -39,9 +39,11 @@ function postUser(request, response) {
   let SQL = `INSERT INTO users (username, zipCode) SELECT '${request.body.userName}', ${request.body.zipCode} 
   WHERE NOT EXISTS (SELECT * FROM users WHERE username = '${request.body.userName}'); SELECT * FROM users WHERE username = '${request.body.userName}';`;
 
+  console.log(SQL, "SQLLLLLL");
   return client
     .query(SQL)
     .then(results => {
+      console.log(results);
       response.send(results[1].rows);
     })
     .catch(err => console.log("ipps"));
