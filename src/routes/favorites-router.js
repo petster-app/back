@@ -67,9 +67,11 @@ function getFavoritePets(request, response) {
     WHERE username='${userName}';
   `;
 
+  console.log(client, "client", SQL);
   return client
     .query(SQL)
     .then((sqlResults) => {
+      console.log("sql resutls", sqlResults);
       response.send(sqlResults.rows);
     })
     .catch((error) => handleError(error, response));
