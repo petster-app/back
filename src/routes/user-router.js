@@ -44,7 +44,7 @@ function postUser(request, response) {
     .then((results) => {
       response.send(results[1].rows);
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 }
 
 module.exports = router;
