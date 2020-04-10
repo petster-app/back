@@ -17,10 +17,10 @@ function updateUser(request, response) {
 
   return client
     .query(SQL)
-    .then(results => {
+    .then((results) => {
       response.send(results[1].rows);
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function getUser(request, response) {
@@ -29,24 +29,22 @@ function getUser(request, response) {
 
   return client
     .query(SQL)
-    .then(results => {
+    .then((results) => {
       response.send(results.rows);
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function postUser(request, response) {
   let SQL = `INSERT INTO users (username, zipCode) SELECT '${request.body.userName}', ${request.body.zipCode} 
   WHERE NOT EXISTS (SELECT * FROM users WHERE username = '${request.body.userName}'); SELECT * FROM users WHERE username = '${request.body.userName}';`;
 
-  console.log(SQL, "SQLLLLLL");
   return client
     .query(SQL)
-    .then(results => {
-      console.log(results);
+    .then((results) => {
       response.send(results[1].rows);
     })
-    .catch(err => console.log("ipps"));
+    .catch((err) => console.log(err));
 }
 
 module.exports = router;
