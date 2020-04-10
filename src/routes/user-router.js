@@ -17,10 +17,10 @@ function updateUser(request, response) {
 
   return client
     .query(SQL)
-    .then(results => {
+    .then((results) => {
       response.send(results[1].rows);
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function getUser(request, response) {
@@ -29,10 +29,10 @@ function getUser(request, response) {
 
   return client
     .query(SQL)
-    .then(results => {
+    .then((results) => {
       response.send(results.rows);
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function postUser(request, response) {
@@ -41,7 +41,7 @@ function postUser(request, response) {
 
   return client
     .query(SQL)
-    .then(results => {
+    .then((results) => {
       response.send(results[1].rows);
     })
     .catch(err => console.log(err));
