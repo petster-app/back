@@ -15,6 +15,8 @@ router.patch("/users", updateUser);
 function updateUser(request, response) {
   let SQL = `UPDATE users SET zipcode = ${request.body.zipCode} WHERE  username = '${request.body.userName}'; SELECT * FROM users WHERE username = '${request.body.userName}';`;
 
+  // `UPDATE users SET zipcode = 98103 WHERE  username = 'testingsql'; SELECT * FROM users WHERE username = 'testingsql';`;
+
   return client
     .query(SQL)
     .then((results) => {
@@ -39,9 +41,14 @@ function postUser(request, response) {
   let SQL = `INSERT INTO users (username, zipCode) SELECT '${request.body.userName}', ${request.body.zipCode} 
   WHERE NOT EXISTS (SELECT * FROM users WHERE username = '${request.body.userName}'); SELECT * FROM users WHERE username = '${request.body.userName}';`;
 
+  // INSERT INTO users (username, zipCode) SELECT 'sqltest', 98103
+  // WHERE NOT EXISTS (SELECT * FROM users WHERE username = 'sqltest'); SELECT * FROM users WHERE username = 'sqltest';
+
+  console.log(SQL);
   return client
     .query(SQL)
     .then((results) => {
+      console.log(results, "results");
       response.send(results[1].rows);
     })
     .catch((err) => console.log(err));
